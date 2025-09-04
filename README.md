@@ -1,6 +1,4 @@
----
-
-ALFA (Access & Logic Flaw Analyzer)
+# ALFA (Access & Logic Flaw Analyzer)
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -48,12 +46,12 @@ The main goal is to provide an **automated testing system** for:
 
 ## ✨ Key Features
 
-* 🔎 **Web Crawler** → Automatically maps endpoints and login pages.
-* 🛠 **Directory Bruteforcer** → Wordlist-based endpoint discovery.
-* 🔑 **Authentication Tester** → Supports manual login and brute-force.
-* 📲 **OTP Handling** → Detects OTP requirement, supports manual/auto handling, and abuse (OTP request abuse) .
-* 🛡 **WALF Tests** → Logic flaw & access control testing (IDOR, privilege escalation).
-* 📑 **Report Generator** → Creates detailed security reports automatically.
+* 🔎 **Web Crawler** → Automatically maps endpoints and login pages
+* 🛠 **Directory Bruteforcer** → Wordlist-based endpoint discovery
+* 🔑 **Authentication Tester** → Supports manual login and brute-force
+* 📲 **OTP Handling** → Detects OTP requirement, supports manual/auto handling, and abuse (OTP request abuse)
+* 🛡 **WALF Tests** → Logic flaw & access control testing (IDOR, privilege escalation)
+* 📑 **Report Generator** → Creates detailed security reports automatically
 
 ---
 
@@ -62,12 +60,12 @@ The main goal is to provide an **automated testing system** for:
 ```
 .
 ├── main.py                # Main entrypoint
-├── crawler.py              # Web crawler for login page & link discovery
-├── bruteforce.py           # Directory brute-forcing engine
-├── auth_tester.py          # Authentication testing module
-├── reporter.py             # Report generation
-├── walf.py                 # WALF (Web Access & Logic Flaw) test engine
-├── data/                   # Output folder (wordlists, results, reports)
+├── crawler.py            # Web crawler for login page & link discovery
+├── bruteforce.py         # Directory brute-forcing engine
+├── auth_tester.py        # Authentication testing module
+├── reporter.py           # Report generation
+├── walf.py               # WALF (Web Access & Logic Flaw) test engine
+├── data/                 # Output folder (wordlists, results, reports)
 │   ├── wordlist.txt
 │   ├── usernames.txt
 │   ├── passwords.txt
@@ -106,23 +104,21 @@ pip install -r requirements.txt
 ### Run ALFA
 
 ```bash
-python ALFA.py
+python main.py
 ```
 
 ### Execution Flow
 
-1. Enter target host (`http://example.com`).
+1. Enter target host (`http://example.com`)
 2. Choose scan mode:
-
-   * **Full scan** → entire wordlist.
-   * **Login-only scan** → filtered wordlist for authentication endpoints.
+   * **Full scan** → entire wordlist
+   * **Login-only scan** → filtered wordlist for authentication endpoints
 3. The framework will:
-
    * Crawl the target and locate login forms
    * Test authentication (manual / brute-force)
    * Handle OTP (manual / automated)
    * Run **WALF tests** if login succeeds
-4. A full report is generated in the `data/` folder.
+4. A full report is generated in the `data/` folder
 
 ---
 
@@ -131,7 +127,6 @@ python ALFA.py
 * Automated **crawler & user role mapping**
 * **Access control testing report** with response comparison
 * Detection of flaws such as:
-
   * IDOR
   * Privilege escalation
   * OTP abuse
