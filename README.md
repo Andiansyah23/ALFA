@@ -61,7 +61,7 @@ The main goal is to provide an **automated testing system** for:
 
 ```
 .
-├── ALFA.py                # Main entrypoint
+├── main.py                # Main entrypoint
 ├── crawler.py              # Web crawler for login page & link discovery
 ├── bruteforce.py           # Directory brute-forcing engine
 ├── auth_tester.py          # Authentication testing module
