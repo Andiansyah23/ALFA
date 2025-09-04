@@ -61,7 +61,7 @@ The main goal is to provide an **automated testing system** for:
 
 ```
 .
-├── alfa.py                # Main entrypoint
+├── ALFA.py                # Main entrypoint
 ├── crawler.py              # Web crawler for login page & link discovery
 ├── bruteforce.py           # Directory brute-forcing engine
 ├── auth_tester.py          # Authentication testing module
@@ -81,8 +81,8 @@ The main goal is to provide an **automated testing system** for:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/username/LOGAC.git
-cd LOGAC
+git clone https://github.com/username/ALFA.git
+cd ALFA
 ```
 
 ### 2. (Optional) Create a virtual environment
@@ -103,10 +103,10 @@ pip install -r requirements.txt
 
 ## 🚀 Usage
 
-### Run LOGAC
+### Run ALFA
 
 ```bash
-python alfa.py
+python ALFA.py
 ```
 
 ### Execution Flow
@@ -142,7 +142,7 @@ python alfa.py
 
 ## ⚠️ Disclaimer
 
-LOGAC is built **for research and educational purposes only**.
+ALFA is built **for research and educational purposes only**.
 ⚠️ Do **NOT** use this tool against systems without **explicit permission**.
 
 ---
