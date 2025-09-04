@@ -1,0 +1,1463 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ALFA Security Report - 127.0.0.1_5002</title>
+        <style>
+    :root {
+        --primary: #2c3e50;
+        --secondary: #3498db;
+        --success: #27ae60;
+        --danger: #e74c3c;
+        --warning: #f39c12;
+        --info: #3498db;
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+        --gray: #95a5a6;
+    }
+    
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f8f9fa;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        color: white;
+        padding: 2rem 0;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+    
+    .report-meta {
+        text-align: right;
+        font-size: 0.9rem;
+    }
+    
+    .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .card-header {
+        background-color: var(--light);
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .card-header h2 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--primary);
+    }
+    
+    .card-body {
+        padding: 1.5rem;
+    }
+    
+    .card.collapsed .card-body {
+        display: none;
+    }
+    
+    .toggle-icon::after {
+        content: "▼";
+        font-size: 0.8rem;
+    }
+    
+    .card.collapsed .toggle-icon::after {
+        content: "►";
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        margin-right: 0.5rem;
+    }
+    
+    .status-success {
+        background-color: var(--success);
+        color: white;
+    }
+    
+    .status-danger {
+        background-color: var(--danger);
+        color: white;
+    }
+    
+    .status-warning {
+        background-color: var(--warning);
+        color: white;
+    }
+    
+    .status-info {
+        background-color: var(--info);
+        color: white;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+    }
+    
+    th, td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+    
+    th {
+        background-color: var(--light);
+        font-weight: 600;
+    }
+    
+    tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .login-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .login-item:last-child {
+        border-bottom: none;
+    }
+    
+    .severity-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        color: white;
+    }
+    
+    .severity-high {
+        background-color: var(--danger);
+    }
+    
+    .severity-medium {
+        background-color: var(--warning);
+    }
+    
+    .severity-low {
+        background-color: var(--success);
+    }
+    
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .summary-item {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .summary-value {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+    
+    .summary-label {
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+    
+    .progress-bar {
+        height: 8px;
+        background-color: #e9ecef;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 0.5rem 0;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        border-radius: 4px;
+    }
+    
+    .security-meter {
+        margin: 1.5rem 0;
+    }
+    
+    .meter-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+    
+    .recommendations {
+        background-color: #f8f9fa;
+        border-left: 4px solid var(--info);
+        padding: 1rem 1.5rem;
+        margin: 1rem 0;
+    }
+    
+    .copy-btn {
+        background-color: var(--secondary);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        margin-left: 1rem;
+    }
+    
+    .copy-btn:hover {
+        background-color: #2980b9;
+    }
+    
+    footer {
+        text-align: center;
+        padding: 2rem 0;
+        color: var(--gray);
+        font-size: 0.9rem;
+        margin-top: 3rem;
+        border-top: 1px solid #eee;
+    }
+    
+    @media (max-width: 768px) {
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .header-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .report-meta {
+            text-align: center;
+            margin-top: 1rem;
+        }
+    }
+    </style>
+        
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle card sections
+        const cardHeaders = document.querySelectorAll('.card-header');
+        cardHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const card = header.parentElement;
+                card.classList.toggle('collapsed');
+            });
+        });
+        
+        // Copy to clipboard functionality
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const textToCopy = button.getAttribute('data-copy');
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = button.textContent;
+                    button.textContent = 'Copied!';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            });
+        });
+        
+        // Expand all/collapse all buttons
+        const expandAllBtn = document.getElementById('expand-all');
+        const collapseAllBtn = document.getElementById('collapse-all');
+        
+        if (expandAllBtn && collapseAllBtn) {
+            expandAllBtn.addEventListener('click', () => {
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.remove('collapsed');
+                });
+            });
+            
+            collapseAllBtn.addEventListener('click', () => {
+                document.querySelectorAll('.card').forEach(card => {
+                    card.classList.add('collapsed');
+                });
+            });
+        }
+    });
+    </script>
+    
+    </head>
+    <body>
+        <div class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">ALFA Security Report</div>
+                    <div class="report-meta">
+                        <div>Target: 127.0.0.1_5002</div>
+                        <div>Generated: 2025-09-04 19:27:09</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                <button id="expand-all" class="copy-btn">Expand All</button>
+                <button id="collapse-all" class="copy-btn">Collapse All</button>
+            </div>
+            
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-label">Security Score</div>
+                    <div class="summary-value" style="color: var(--danger);">0/100</div>
+                    <div class="summary-label">Low Security</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Successful Logins</div>
+                    <div class="summary-value">2</div>
+                    <div class="summary-label">Accounts Tested</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Directories Found</div>
+                    <div class="summary-value">4</div>
+                    <div class="summary-label">During Crawling</div>
+                </div>
+                
+                <div class="summary-item">
+                    <div class="summary-label">Blocked Usernames</div>
+                    <div class="summary-value">0</div>
+                    <div class="summary-label">Rate Limiting Detected</div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Security Overview</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+                    <div class="security-meter">
+                        <div class="meter-label">
+                            <span>Security Level</span>
+                            <span>Low</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 0%; background-color: var(--danger);"></div>
+                        </div>
+                    </div>
+                    
+                    <h3>Summary</h3>
+                    <ul>
+    <li><span class="status-badge status-danger">Critical</span>Brute force attack successful</li><li><span class="status-badge status-warning">Warning</span>No rate limiting detected</li><li><span class="status-badge status-warning">Warning</span>Found 0 high and 29 medium severity access control issues</li>
+                    </ul>
+                    
+                    <div class="recommendations">
+                        <h3>Recommendations</h3>
+                        <ul>
+    <li>Implement account lockout after multiple failed attempts</li><li>Enforce strong password policies</li><li>Implement rate limiting on authentication endpoints</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Login Form Analysis</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+    
+                    <p><strong>URL:</strong> http://127.0.0.1:5002/login</p>
+                    <p><strong>Action:</strong> http://127.0.0.1:5002/login</p>
+                    <p><strong>Method:</strong> post</p>
+                    
+                    <h3>Form Inputs</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                            <tr>
+                                <td>email</td>
+                                <td>email</td>
+                                <td></td>
+                            </tr>
+            
+                            <tr>
+                                <td>password</td>
+                                <td>password</td>
+                                <td></td>
+                            </tr>
+            
+                        </tbody>
+                    </table>
+        
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>OTP Form Analysis</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+    <p>No OTP form detected during testing.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Successful Logins</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+    
+                    <p>Found 2 successful authentication attempts.</p>
+                    
+                    <div>
+                        <strong>Credentials File:</strong> data/successful_logins_127.0.0.1_5002.txt
+                        <button class="copy-btn" data-copy="data/successful_logins_127.0.0.1_5002.txt">Copy Path</button>
+                    </div>
+                    
+                    <h3>Discovered Accounts</h3>
+        
+                    <div class="login-item">
+                        <div>
+                            <strong>admin@example.com</strong>
+                            <span class="status-badge status-success">FULL_ACCESS</span>
+                        </div>
+                        <div>Password: A***********!</div>
+                    </div>
+            
+                    <div>
+                        <strong>Cookies File:</strong> data/cookies_admin@example.com.txt
+                        <button class="copy-btn" data-copy="data/cookies_admin@example.com.txt">Copy Path</button>
+                    </div>
+            
+                    <div class="login-item">
+                        <div>
+                            <strong>user@example.com</strong>
+                            <span class="status-badge status-success">FULL_ACCESS</span>
+                        </div>
+                        <div>Password: U**********!</div>
+                    </div>
+            
+                    <div>
+                        <strong>Cookies File:</strong> data/cookies_user@example.com.txt
+                        <button class="copy-btn" data-copy="data/cookies_user@example.com.txt">Copy Path</button>
+                    </div>
+            
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Brute Force Results</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+    
+                    <p class="status-danger">
+                        Brute force attack: SUCCESSFUL
+                    </p>
+        
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Security Controls</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+    <p>No rate limiting or account lockout mechanisms detected.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2>Discovered Directories</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+                    <p>Found {len(directories)} directories during crawling:</p>
+                    <ul>
+    <li>http://127.0.0.1:5002/login</li><li>http://127.0.0.1:5002/admin</li><li>http://127.0.0.1:5002/logout</li><li>http://127.0.0.1:5002/profile/1</li>
+                    </ul>
+                </div>
+            </div>
+    
+            <div class="card">
+                <div class="card-header">
+                    <h2>Access Control Vulnerabilities</h2>
+                    <span class="toggle-icon"></span>
+                </div>
+                <div class="card-body">
+                    <p>Found 110 access control issues during testing:</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Target</th>
+                                <th>Value</th>
+                                <th>Severity</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/1</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/2</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/3</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/4</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/5</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/6</td>
+                                <td>6</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/7</td>
+                                <td>7</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/8</td>
+                                <td>8</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/9</td>
+                                <td>9</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/10</td>
+                                <td>10</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/11</td>
+                                <td>11</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/12</td>
+                                <td>12</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>42cf317f-4fef-4ce2-b1c6-2aa97a4d5e1f</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>49813cfd-91d4-494d-9045-d78022b04ade</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post</td>
+                                <td>N/A</td>
+                                <td>ba0afffa-f08b-44e5-a446-4e353d10ff02</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post_altct</td>
+                                <td>N/A</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post_altct</td>
+                                <td>N/A</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>hidden_post_altct</td>
+                                <td>N/A</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>401</td>
+                            </tr>
+            
+                            <tr>
+                                <td>role_response_comparison</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>N/A</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>403</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>403</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>403</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>403</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/administrator</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/administrator</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/administrator</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/administrator</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/admin/dashboard</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/dashboard</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/dashboard</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/dashboard</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/manage</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/manage</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/manage</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/manage</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/admin/login</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/login</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/login</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/login</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/admin-console</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin-console</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin-console</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin-console</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/manage/account</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/manage/account</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/manage/account</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/manage/account</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/cms</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/cms</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/cms</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/cms</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/dashboard/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/dashboard/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/dashboard/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/dashboard/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/admin/api</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/api</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/api</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/admin/api</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin</td>
+                                <td>http://127.0.0.1:5002/api/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/api/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/api/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>vertical_admin_header_probe</td>
+                                <td>http://127.0.0.1:5002/api/admin</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_profile</td>
+                                <td>http://127.0.0.1:5002/profile/1</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/orders/1</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/order/1</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/invoices/1</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/transactions/1</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_profile</td>
+                                <td>http://127.0.0.1:5002/profile/2</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/orders/2</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/order/2</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/invoices/2</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/transactions/2</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_profile</td>
+                                <td>http://127.0.0.1:5002/profile/3</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/orders/3</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/order/3</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/invoices/3</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/transactions/3</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_profile</td>
+                                <td>http://127.0.0.1:5002/profile/4</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/orders/4</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/order/4</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/invoices/4</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/transactions/4</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_profile</td>
+                                <td>http://127.0.0.1:5002/profile/5</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/orders/5</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/order/5</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/invoices/5</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_nested_guess</td>
+                                <td>http://127.0.0.1:5002/transactions/5</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>horizontal_semantic_compare</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>N/A</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/1</td>
+                                <td>1</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/2</td>
+                                <td>2</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/3</td>
+                                <td>3</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/4</td>
+                                <td>4</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/5</td>
+                                <td>5</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/ca9c634d-d2ce-4235-a369-3999ccfc2975</td>
+                                <td>ca9c634d-d2ce-4235-a369-3999ccfc2975</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/85036265-1342-43de-a922-4df2aee84d73</td>
+                                <td>85036265-1342-43de-a922-4df2aee84d73</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path</td>
+                                <td>http://127.0.0.1:5002/profile/fc51012d-d4a3-4470-97a9-43d2d14b4750</td>
+                                <td>fc51012d-d4a3-4470-97a9-43d2d14b4750</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>404</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/6</td>
+                                <td>6</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/7</td>
+                                <td>7</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/8</td>
+                                <td>8</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/9</td>
+                                <td>9</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/10</td>
+                                <td>10</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/11</td>
+                                <td>11</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>sequential_path_expand</td>
+                                <td>http://127.0.0.1:5002/profile/12</td>
+                                <td>12</td>
+                                <td><span class="severity-badge severity-medium">Medium</span></td>
+                                <td>200</td>
+                            </tr>
+            
+                            <tr>
+                                <td>timing_probe</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                <td><span class="severity-badge severity-low">Low</span></td>
+                                <td>N/A</td>
+                            </tr>
+            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+        </div>
+        
+        <footer>
+            <div class="container">
+                <p>Generated by ALFA (Access & Logic Flaw Analyzer)</p>
+                <p>Raihan Rinto Andiansyah & Ahmed Haykal Hifzhan Rachmady</p>
+            </div>
+        </footer>
+    </body>
+    </html>
+    
