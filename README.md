@@ -1,5 +1,3 @@
-Oke, Raihan 👍 berikut versi **README.md** dalam bahasa Inggris, dengan penambahan header **LOGAC (Logic & Access Security Scanner)**, badges, dan penyesuaian agar lebih rapi untuk GitHub.
-
 ---
 
 # LOGAC (Logic & Access Security Scanner)
@@ -29,7 +27,7 @@ By: Raihan Rinto Andiansyah & Ahmed Haykal Hifzhan Rachmady
 
 ## 📌 Description
 
-**LOGAC (Logic & Access Security Scanner)** is a **framework for web application security testing** with a strong focus on **access control** and **business logic flaws**.
+**ALFA (Access & Logic Flaw Analyzer)** is an automated framework for web application security testing, focusing on detecting Access Control flaws, IDOR (Insecure Direct Object References), Privilege Escalation, and Business Logic flaws. In final testing within a multi-role lab environment, **ALFA demonstrated over 90% detection effectiveness** across simulated scenarios.
 
 The tool helps identify critical issues such as:
 
@@ -53,7 +51,7 @@ The main goal is to provide an **automated testing system** for:
 * 🔎 **Web Crawler** → Automatically maps endpoints and login pages.
 * 🛠 **Directory Bruteforcer** → Wordlist-based endpoint discovery.
 * 🔑 **Authentication Tester** → Supports manual login and brute-force.
-* 📲 **OTP Handling** → Detects OTP requirement, supports manual/auto handling, and abuse detection.
+* 📲 **OTP Handling** → Detects OTP requirement, supports manual/auto handling, and abuse (OTP request abuse) .
 * 🛡 **WALF Tests** → Logic flaw & access control testing (IDOR, privilege escalation).
 * 📑 **Report Generator** → Creates detailed security reports automatically.
 
